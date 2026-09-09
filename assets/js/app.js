@@ -3,7 +3,7 @@ database.version(1).stores({ prints: '++id, subject, *tags, printNumber, created
 database.version(2).stores({ prints: '++id, subject, *tags, printNumber, createdAt, updatedAt, syncKey, driveJsonId, driveImageId' });
 
 const state = { prints: [], selectedId: null, subject: 'すべて', query: '', tag: '', worker: null };
-const DRIVE_CLIENT_ID = 'YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com';
+const DRIVE_CLIENT_ID = '225116631185-g2mr89e63ftsvbhnpo5btd8s1cboi2jj.apps.googleusercontent.com';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
 const DRIVE_MANIFEST_NAME = 'papertrail-manifest.json';
 const drive = { accessToken: null, tokenClient: null, manifestFile: null };
