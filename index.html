@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#173f3a">
+    <meta name="description" content="学校プリントをOCRで整理するローカル管理アプリ">
+    <title>Papertrail | 学校プリント管理</title>
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#top" aria-label="Papertrail ホーム"><span
+                    class="brand-mark">P</span><span><strong>papertrail</strong><small>school archive</small></span></a>
+            <nav class="main-nav" aria-label="メインナビゲーション"><a class="nav-link is-active" href="#library"><span
+                        class="nav-icon">▦</span>ライブラリ</a><a class="nav-link" href="#upload"><span
+                        class="nav-icon">＋</span>プリントを追加</a><a class="nav-link" href="#recent"><span
+                        class="nav-icon">◷</span>最近の更新</a></nav>
+            <div class="subject-nav">
+                <p class="nav-label">教科</p><button class="subject-link is-selected" data-subject-filter="すべて"><span
+                        class="subject-dot all"></span>すべて <span class="subject-count"
+                        id="allCount">0</span></button><button class="subject-link" data-subject-filter="数学"><span
+                        class="subject-dot math"></span>数学 <span class="subject-count"
+                        id="mathCount">0</span></button><button class="subject-link" data-subject-filter="英語"><span
+                        class="subject-dot english"></span>英語 <span class="subject-count"
+                        id="englishCount">0</span></button><button class="subject-link" data-subject-filter="国語"><span
+                        class="subject-dot japanese"></span>国語 <span class="subject-count"
+                        id="japaneseCount">0</span></button><button class="subject-link" data-subject-filter="理科"><span
+                        class="subject-dot science"></span>理科 <span class="subject-count"
+                        id="scienceCount">0</span></button><button class="subject-link" data-subject-filter="社会"><span
+                        class="subject-dot social"></span>社会 <span class="subject-count"
+                        id="socialCount">0</span></button>
+            </div>
+            <div class="storage-note"><span
+                    class="status-dot"></span><span><strong>この端末に保存</strong><small>サーバーには送信されません</small></span></div>
+        </aside>
+        <main class="main-content" id="top">
+            <header class="topbar">
+                <div class="breadcrumb"><span>MY ARCHIVE</span><i>/</i><strong>すべてのプリント</strong></div>
+                <div class="top-actions"><span class="offline-badge"><span
+                            class="status-dot"></span>オフライン対応</span><button class="icon-button" id="exportAllButton"
+                        title="すべてをPDFに書き出す" aria-label="すべてをPDFに書き出す">⇩</button><button
+                        class="drive-button" id="driveButton" type="button"><span class="drive-symbol">↥</span><span
+                            id="driveButtonLabel">Googleで接続</span></button><span class="sync-status" id="syncStatus"
+                        aria-live="polite">未同期</span>
+                    <div class="avatar">S</div>
+                </div>
+            </header>
+            <section class="page-intro" id="library">
+                <div>
+                    <p class="eyebrow">YOUR PAPER LIBRARY <span class="line"></span></p>
+                    <h1>プリントを、<em>あとで使える</em><br>知識に変える。</h1>
+                    <p class="intro-copy">撮影するだけで文字を読み取り、教科とタグで整理。<br>テスト前に、必要な一枚がすぐ見つかります。</p>
+                </div>
+                <div class="intro-stat"><span id="totalCount">0</span><small>保存済み<br>プリント</small></div>
+            </section>
+            <section class="upload-panel" id="upload">
+                <div class="upload-copy"><span class="upload-symbol">↥</span>
+                    <div>
+                        <h2>プリントを追加</h2>
+                        <p>画像をここにドロップ、またはファイルを選択</p><span class="upload-hint">JPG / PNG · 複数選択できます</span>
+                    </div>
+                </div><label class="primary-button" for="fileInput">ファイルを選択 <span>→</span></label><input id="fileInput"
+                    type="file" accept="image/*" multiple hidden>
+            </section>
+            <div class="drop-zone" id="dropZone" aria-label="画像をドロップするエリア"></div>
+            <div class="queue-status" id="queueStatus" aria-live="polite"></div>
+            <section class="library-section" id="recent">
+                <div class="section-header">
+                    <div>
+                        <p class="eyebrow">YOUR COLLECTION</p>
+                        <h2>保存したプリント</h2>
+                    </div>
+                    <div class="view-tools"><label class="search-box"><span>⌕</span><input id="searchInput"
+                                type="search" placeholder="タイトル・本文を検索"></label><button class="filter-button"
+                            id="tagFilterButton">タグ <span>⌄</span></button></div>
+                </div>
+                <div class="tag-menu" id="tagMenu"></div>
+                <div class="print-grid" id="printGrid"></div>
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">✦</div>
+                    <h3>まだプリントがありません</h3>
+                    <p>最初の一枚を追加して、あなたの学習アーカイブを始めましょう。</p><label class="text-button" for="fileInput">画像を追加する →</label>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div class="modal-backdrop" id="editorModal" hidden>
+        <section class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">PRINT DETAILS</p>
+                    <h2 id="editorTitle">プリントを編集</h2>
+                </div><button class="close-button" id="closeEditor" aria-label="閉じる">×</button>
+            </div>
+            <div class="editor-layout">
+                <div class="preview-wrap"><img id="editorImage" alt="プリントのプレビュー">
+                    <div class="preview-label">ORIGINAL IMAGE</div>
+                </div>
+                <form id="printForm"><label>タイトル<input id="titleInput" required placeholder="例：二次関数 演習プリント"></label>
+                    <div class="form-row"><label>教科<select id="subjectInput">
+                                <option value="未分類">未分類</option>
+                                <option value="数学">数学</option>
+                                <option value="英語">英語</option>
+                                <option value="国語">国語</option>
+                                <option value="理科">理科</option>
+                                <option value="社会">社会</option>
+                            </select></label><label>プリント番号<input id="numberInput" placeholder="例：No.05"></label></div>
+                    <label>タグ <span class="label-note">カンマ区切り</span><input id="tagsInput"
+                            placeholder="例：中間テスト, 要復習"></label><label>OCRテキスト <span
+                            class="label-note">誤認識はここで修正できます</span><textarea id="ocrInput" rows="8"
+                            placeholder="OCR結果がここに表示されます"></textarea></label>
+                    <div class="form-actions"><button type="button" class="delete-button"
+                            id="deleteButton">削除</button><button type="submit" class="primary-button">保存する
+                            <span>→</span></button></div>
+                </form>
+            </div>
+        </section>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@4.0.8/dist/dexie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="assets/js/app.js?v=2"></script>
+</body>
+
+</html>
