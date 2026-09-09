@@ -122,7 +122,11 @@ elements.dropZone.addEventListener('dragover', event => { event.preventDefault()
 elements.dropZone.addEventListener('dragleave', () => elements.dropZone.classList.remove('is-dragging'));
 elements.dropZone.addEventListener('drop', event => { event.preventDefault(); elements.dropZone.classList.remove('is-dragging'); processFiles(event.dataTransfer.files); });
 elements.search.addEventListener('input', event => { state.query = event.target.value; render(); });
-elements.tagButton.addEventListener('click', () => elements.tagMenu.classList.toggle('is-open'));
+elements.tagButton.addEventListener('click', () => {
+    const isOpen = elements.tagMenu.classList.toggle('is-open');
+    elements.tagButton.classList.toggle('is-open', isOpen);
+    elements.tagButton.setAttribute('aria-expanded', String(isOpen));
+});
 document.querySelectorAll('[data-subject-filter]').forEach(button => button.addEventListener('click', () => { state.subject = button.dataset.subjectFilter; document.querySelectorAll('.subject-link').forEach(item => item.classList.toggle('is-selected', item === button)); render(); }));
 elements.tagMenu.addEventListener('click', event => { if (event.target.dataset.tag !== undefined) { state.tag = event.target.dataset.tag; render(); } });
 elements.grid.addEventListener('click', async event => { const button = event.target.closest('[data-action]'); if (!button) return; const print = await database.prints.get(Number(button.dataset.id)); if (button.dataset.action === 'edit') openEditor(print); else downloadPdf([print]); });

@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#173f3a">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <meta name="description" content="学校プリントをOCRで整理するローカル管理アプリ">
     <title>Papertrail | 学校プリント管理</title>
     <link rel="stylesheet" href="assets/css/normalize.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script src="https://kit.fontawesome.com/80e8220817.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 
 <body>
@@ -18,9 +22,11 @@
             <a class="brand" href="#top" aria-label="Papertrail ホーム"><span
                     class="brand-mark">P</span><span><strong>papertrail</strong><small>school archive</small></span></a>
             <nav class="main-nav" aria-label="メインナビゲーション"><a class="nav-link is-active" href="#library"><span
-                        class="nav-icon"><i class="fa-solid fa-table-cells-large"></i></span>ライブラリ</a><a class="nav-link" href="#upload"><span
-                        class="nav-icon">＋</span>プリントを追加</a><a class="nav-link" href="#recent"><span
-                        class="nav-icon">◷</span>最近の更新</a></nav>
+                        class="nav-icon"><span class="icon icon-grid" aria-hidden="true"></span></span>ライブラリ</a><a
+                    class="nav-link" href="#upload"><span class="nav-icon"><span
+                            class="icon icon-add" aria-hidden="true"></span></span>プリントを追加</a><a class="nav-link"
+                    href="#recent"><span class="nav-icon"><span
+                            class="icon icon-history" aria-hidden="true"></span></span>最近の更新</a></nav>
             <div class="subject-nav">
                 <p class="nav-label">教科</p><button class="subject-link is-selected" data-subject-filter="すべて"><span
                         class="subject-dot all"></span>すべて <span class="subject-count"
@@ -44,48 +50,51 @@
                 <div class="breadcrumb"><span>MY ARCHIVE</span><i>/</i><strong>すべてのプリント</strong></div>
                 <div class="top-actions"><span class="offline-badge"><span
                             class="status-dot"></span>オフライン対応</span><button class="icon-button" id="exportAllButton"
-                        title="すべてをPDFに書き出す" aria-label="すべてをPDFに書き出す">⇩</button><button
-                        class="drive-button" id="driveButton" type="button"><span class="drive-symbol">↥</span><span
+                        title="すべてをPDFに書き出す" aria-label="すべてをPDFに書き出す"><span
+                            class="icon icon-export" aria-hidden="true"></span></button>
+                    <button class="drive-button" id="driveButton" type="button"><span class="drive-symbol"><span
+                                class="icon icon-sync" aria-hidden="true"></span></span><span
                             id="driveButtonLabel">Googleで接続</span></button><span class="sync-status" id="syncStatus"
                         aria-live="polite">未同期</span>
-                    <div class="avatar">S</div>
                 </div>
             </header>
             <section class="page-intro" id="library">
                 <div>
-                    <p class="eyebrow">YOUR PAPER LIBRARY <span class="line"></span></p>
                     <h1>プリントを、<em>あとで使える</em><br>知識に変える。</h1>
                     <p class="intro-copy">撮影するだけで文字を読み取り、教科とタグで整理。<br>テスト前に、必要な一枚がすぐ見つかります。</p>
                 </div>
                 <div class="intro-stat"><span id="totalCount">0</span><small>保存済み<br>プリント</small></div>
             </section>
             <section class="upload-panel" id="upload">
-                <div class="upload-copy"><span class="upload-symbol">↥</span>
+                <div class="upload-copy"><span class="upload-symbol"><span
+                            class="icon icon-upload" aria-hidden="true"></span></span>
                     <div>
                         <h2>プリントを追加</h2>
                         <p>画像をここにドロップ、またはファイルを選択</p><span class="upload-hint">JPG / PNG · 複数選択できます</span>
                     </div>
-                </div><label class="primary-button" for="fileInput">ファイルを選択 <span>→</span></label><input id="fileInput"
-                    type="file" accept="image/*" multiple hidden>
+                </div><label class="primary-button" for="fileInput">ファイルを選択 <span><span
+                            class="icon icon-arrow" aria-hidden="true"></span></span></label><input
+                    id="fileInput" type="file" accept="image/*" multiple hidden>
             </section>
             <div class="drop-zone" id="dropZone" aria-label="画像をドロップするエリア"></div>
             <div class="queue-status" id="queueStatus" aria-live="polite"></div>
             <section class="library-section" id="recent">
                 <div class="section-header">
                     <div>
-                        <p class="eyebrow">YOUR COLLECTION</p>
                         <h2>保存したプリント</h2>
                     </div>
-                    <div class="view-tools"><label class="search-box"><span>⌕</span><input id="searchInput"
-                                type="search" placeholder="タイトル・本文を検索"></label><button class="filter-button"
-                            id="tagFilterButton">タグ <span>⌄</span></button></div>
+                    <div class="view-tools"><label class="search-box"><span
+                                class="icon icon-search" aria-hidden="true"></span><input id="searchInput" type="search"
+                                placeholder="タイトル・本文を検索"></label><button class="filter-button" id="tagFilterButton">タグ
+                            <span class="icon icon-expand" aria-hidden="true"></span></button></div>
                 </div>
                 <div class="tag-menu" id="tagMenu"></div>
                 <div class="print-grid" id="printGrid"></div>
                 <div class="empty-state" id="emptyState">
-                    <div class="empty-icon">✦</div>
+                    <div class="empty-icon"><span class="icon icon-asterisk" aria-hidden="true"></span></div>
                     <h3>まだプリントがありません</h3>
-                    <p>最初の一枚を追加して、あなたの学習アーカイブを始めましょう。</p><label class="text-button" for="fileInput">画像を追加する →</label>
+                    <p>最初の一枚を追加して、あなたの学習アーカイブを始めましょう。</p><label class="text-button" for="fileInput">画像を追加する <span
+                            class="icon icon-arrow" aria-hidden="true"></span></label>
                 </div>
             </section>
         </main>
@@ -94,9 +103,8 @@
         <section class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
             <div class="modal-header">
                 <div>
-                    <p class="eyebrow">PRINT DETAILS</p>
                     <h2 id="editorTitle">プリントを編集</h2>
-                </div><button class="close-button" id="closeEditor" aria-label="閉じる">×</button>
+                </div><button class="close-button" id="closeEditor" aria-label="閉じる"><span class="icon icon-close" aria-hidden="true"></span></button>
             </div>
             <div class="editor-layout">
                 <div class="preview-wrap"><img id="editorImage" alt="プリントのプレビュー">
